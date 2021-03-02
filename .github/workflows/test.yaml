@@ -16,6 +16,7 @@ jobs:
     container:
       image: epitechcontent/epitest-docker
     steps:
+      - uses: action/checkout@v2
       - name: "Start unittest"
         run: |
           make re
