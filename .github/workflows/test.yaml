@@ -1,13 +1,15 @@
 name: "Tests"
-on:
-  push:
-    branches:
-      - main
-      - dev
+on: pull_request
 jobs:
-  unit_test:
+  unit-test:
     runs-on: ubuntu-20.04
+    container:
+      image: epitechcontent/epitest-docker
     steps:
-      - name: Echo
+      - uses: actions/checkout@v2
+      - name: "Start unittest"
         run: |
-          echo Welcome to the Github Actions Workshop!
+          make re
+          make tests_run
+          make coverage
+          ./functional-test.sh
