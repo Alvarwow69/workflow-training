@@ -5,9 +5,20 @@ on:
       - main
       - dev
 jobs:
-  unit_test:
+  test:
     runs-on: ubuntu-20.04
     steps:
-      - name: Echo
+      - name: "Echo"
         run: |
           echo Welcome to the Github Actions Workshop!
+  unit-test:
+    runs-on: ubuntu-20.04
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - name: "Start unittest"
+        run: |
+          make re
+          make tests_run
+          make converage
+          ./functionnal-test.sh
