@@ -15,14 +15,14 @@ jobs:
       image: epitechcontent/epitest-docker
     steps:
       - name: "Checkout repo"
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: "Start unit test"
         run: make tests_run > coverage_log.txt
       - name: "Get coverage"
         run: make coverage > coverage_log.txt
       - name: "Create artefact"
         continue-on-error: true
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: coverage_log
           path: coverage_log.txt
@@ -33,14 +33,14 @@ jobs:
       image: epitechcontent/epitest-docker
     steps:
       - name: "Checkout repo"
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: "Build project"
         run: make
       - name: "Start functionals tests"
         run: ./functional-test.sh > fonctional_log.txt
       - name: "Create artefact"
         continue-on-error: true
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: fonctional_log
           path: fonctional_log.txt
