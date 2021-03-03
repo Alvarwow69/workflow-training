@@ -1,15 +1,46 @@
 name: "Tests"
-on: pull_request
+on: 
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
 jobs:
   unit-test:
     runs-on: ubuntu-20.04
     container:
       image: epitechcontent/epitest-docker
     steps:
+      - name: "Checkout repo"
       - uses: actions/checkout@v2
-      - name: "Start unittest"
-        run: |
-          make re
-          make tests_run
-          make coverage
-          ./functional-test.sh
+      - name: "Start unit test"
+        run: make tests_run > coverage_log.txt
+      - name: "Get coverage"
+        run: make coverage > coverage_log.txt
+      - name: "Create artefact"
+        continue-on-error: true
+      - uses: actions/upload-artifact@v2
+        with:
+          name: coverage_log
+          path: coverage_log.txt
+          
+  functionnal_test:
+    runs-on: ubuntu-20.04
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+      - name: "Checkout repo"
+      - uses: actions/checkout@v2
+      - name: "Build project"
+        run: make
+      - name: "Start functionals tests"
+        run: ./functional-test.sh > fonctional_log.txt
+      - name: "Create artefact"
+        continue-on-error: true
+      - uses: actions/upload-artifact@v2
+        with:
+          name: fonctional_log
+          path: fonctional_log.txt
